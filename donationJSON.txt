@@ -1,0 +1,20 @@
+"donation":{
+	"item":[
+	{
+		"type":"couch",
+		"count":1,
+		"description":"my description"	
+	}],
+	"User":
+	{
+		"fName":"Name1",
+		"lName":"Name2",
+		"email":"email@gmail.com",
+		"address":"address 1",
+		"city":"SF",
+		"state":"CA",
+		"zip code":"12334",
+		"phone":"222-333-4444"
+	},
+	"pickUpDates":["1/1/1111"]
+}
