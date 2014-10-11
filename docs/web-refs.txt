@@ -1,0 +1,13 @@
+Domain:
+http://sfgoodwill.org/
+
+Brand Artwork:
+http://sfgoodwill.org/opportunity-hack-2014/
+
+Example Affiliate Already With CRM System:
+http://www.goodwillsp.org/?page_id=142
+
+Example of their existing CRM (started but apparently flawed)
+http://sfgoodwill.org/account/track-what-you-donate/
+Create Account Page
+http://sfgoodwill.org/account/register/
