@@ -16,5 +16,6 @@
 		"zip code":"12334",
 		"phone":"222-333-4444"
 	},
-	"pickUpDates":["1/1/1111"]
+	"pickUpDates":["1/1/1111"],
+        "status":1
 }
