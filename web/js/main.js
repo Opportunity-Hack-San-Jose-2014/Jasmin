@@ -17,13 +17,13 @@ function ready(){
 }
 
 
-var templates=['item','displayAddress','displayContact'];
+var templates=['item','displayAddress','displayContact','controls'];
 async.each(templates,getTemplate,function(){
     getPhotos()
 })
 
 function jsonFlickrApi(data){
-    mock.images = data.items;
+    mock.images = data.photos.photo;
     console.log('added items',data);
     ready();
 }

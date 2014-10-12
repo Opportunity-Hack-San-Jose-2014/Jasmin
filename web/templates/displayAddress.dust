@@ -1,9 +1,5 @@
-<div>
-    <dl class="dl-horizontal">
-        <dd>{address.addr1}</dd>
-        {?address.addr2}
-        <dd>{address.addr2}</dd>
-        {/address.addr2}
-        <dd>{address.city}, {address.state}, {address.zip}</dd>
+<div class="address">
+        <div>{address.addr1} {?address.addr2}&nbsp;{address.addr2}{/address.addr2}</div>
+        <div>{address.city}, {address.state}, {address.zip}</div>
     </dl>
 </div>
