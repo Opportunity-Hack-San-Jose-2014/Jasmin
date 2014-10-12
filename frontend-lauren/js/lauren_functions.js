@@ -9,29 +9,15 @@ function addItem() {
                                     '<div class="box-body"> '+
                                         '<div class="form-group"> '+
                                             '<label >Short Item Title</label> '+
-                                            '<input class="form-control input-sm" id="itemTitle'+itemCounter+'" type="text" placeholder="e.g. Black Leather Couch"> '+
+                                            '<input class="form-control input-sm" id="itemTitle'+itemCounter+'" type="text" placeholder="e.g. Assorted Household Items"> '+
                                         '</div> '+
                                         '<div class="form-group"> '+
                                             '<label>Item Description</label> '+
-                                            '<textarea class="form-control input-sm" id="itemDescr'+itemCounter+'" rows="3" placeholder="Very comfy black leather couch, few tears, no stains, measures approximately..."></textarea> '+
+                                            '<textarea class="form-control input-sm" id="itemDescr'+itemCounter+'" rows="3" placeholder="Victorian lamp, children\'s clothes..."></textarea> '+
                                         '</div> '+
                                         '<div class="form-group"> '+
-                                            '<label for="exampleInputFile">Add Photos</label> '+
-                                            '<form id="upload" method="post" action="upload.php" enctype="multipart/form-data">'+
-                                               ' <div id="drop">'+
-                                                '    Drop Here'+
-
-                                                 '   <a>Browse</a>'+
-                                                  '  <input type="file" name="upl" multiple />'+
-                                               ' </div>'+
-
-                                                '<div class="row">'+
-                                                 '   <ul>'+
-                                                  '      <!-- The file uploads will be shown here -->'+
-                                                   ' </ul>'+
-                                                '</div>'+
-
-                                            '</form> '+
+                                            '<label for="exampleInputFile">Add Photo</label> '+
+                                            '<input type="file" id="inputFile">'+
                                         '</div> '+
                                     '</div><!-- /.box-body --> '+
                                     '<div class="box-footer"> '+
@@ -54,17 +40,14 @@ function getVal(id){
     return document.getElementById(id).value;
 }
 /*
- * Eventually, this will return a JSON object that contains all the dates and time frames input by the user.
- * For now, though, it just returns the last date chosen.
+ * Returns an array that contains all the dates and time frames input by the user.
 */
 function getCalJSON() {
     var data = $("#calendar").fullCalendar( 'clientEvents');
-    var i = 0;
     var endJSON = "";
-    while (data[i]) {
+    for (var i = 0; i < data.length; i++) {
         //console.log(data[i])
         if (data[i].title === 'Pickup Unavailable') {
-            i++;
             continue;
         }
         var startDate = String(data[i].start._d)
@@ -79,9 +62,12 @@ function getCalJSON() {
 
         endJSON += month+"/"+day+"/"+res[3]
 
-        i++;
+        if (i < data.length-1) {
+            endJSON += ','
+        }
     }
 
+    //console.log(endJSON)
     return endJSON;
 }
 
@@ -104,13 +90,18 @@ function getCalJSON() {
 function getAllData() {
     var date = getCalJSON()
     var itemJSON = "";
+    var firstName = getVal('firstName')
+    var lastName = getVal('lastName')
     var email = getVal('email');
+    var strAdr = getVal('streetAddress')
+    var city = getVal('city')
+    var state = getVal('state')
+    var zip = getVal('zip')
     var descr = getVal('itemDescr1');
     var photosArray = getPhotos()
 
     for (var i = 1; i <= itemCounter; i++){
         var id = "itemDescr"+i
-        console.log(id)
         var desc = getVal("itemDescr"+i)
         var temp = JSON.stringify({"itemTypeID":0,"count":1,"description":desc})
         itemJSON += temp;
@@ -119,14 +110,14 @@ function getAllData() {
         }
     }
 
-    console.log(itemJSON)
+    //console.log(itemJSON)
     // Form JSON string 
-    var jsonString = JSON.stringify({"item":[{"itemTypeID":0,"count":1,"description":descr}],"User":{"email":email},"pickUpDates":[date],"imageURL":photosArray,"donationStatus":1})
+    var jsonString = JSON.stringify({"item":[{"itemTypeID":0,"count":1,"description":descr}],"User":{"firstName":firstName,"lastName":lastName,"email":email,"strAdr":strAdr,"city":city,"state":state,"zip":zip},"pickUpDates":[date],"imageURL":photosArray,"donationStatus":1})
     console.log(jsonString)
 }
 function getPhotos() {
     var photoDivs = document.getElementsByClassName('working')
-    console.log( photoDivs )
+    //console.log( photoDivs )
     var array = []
 
     for (var i = 0; i < photoDivs.length; i++){
