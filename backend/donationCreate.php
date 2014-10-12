@@ -1,6 +1,6 @@
 <?php
 //Creates a new donation entry.
-/*JSON Format
+/*JSON Input Format
  * {
     "item":[
     {
@@ -8,10 +8,8 @@
             "count":1,
             "description":"my description"	
     }],
-    "User":
-    {
-            "email":"email@gmail.com"
-    },
+    "imageURL":["/10_11/1.jpg"],
+    "email":"email@gmail.com",
     "pickUpDates":["1/1/1111"],
     "donationStatus":1
 }*/
@@ -47,10 +45,20 @@ try{
     $sql = 'INSERT INTO hack.DonationDates(donationID,pickUpDate) VALUES(:donationID,:pickUpDate)';
     foreach($queryJSON['pickUpDates'] as $date)
     {
+        $newDate = date('Y-m-d', strtotime($date));
         $stmt=$dbConnection->prepare($sql);
-        $stmt->execute(array(':donationID'=>$donationID,':pickUpDate'=>$date));        
+        $stmt->execute(array(':donationID'=>$donationID,':pickUpDate'=>$newDate));        
     }
     unset($date);
+    
+    $sql = 'INSERT INTO hack.DonationPictures(donationID,imageURL) VALUES(:donationID,:imageURL)';
+    foreach($queryJSON['imageURL'] as $imageURL)
+    {
+        $stmt=$dbConnection->prepare($sql);
+        $stmt->execute(array(':donationID'=>$donationID,':imageURL'=>$imageURL));        
+    }
+    unset($imageURL);
+    
     $dbConnection->commit();
     
     $response['status']=1;
