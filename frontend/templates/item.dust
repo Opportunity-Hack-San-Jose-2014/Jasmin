@@ -1,21 +1,22 @@
-<li class="item" id="{itemId}">
+<li class="item" id="{donationID}">
     <div class="row">
         <div class="col-xs-6">
+            {#item}
             <div class="itemDescBlock">
-                <h4>{itemTitle}</h4>
+                <h4>{.itemTitle}</h4>
 
-                <p>{itemDesc}</p>
+                <p>{.description}</p>
             </div>
+            {/item}
             <div class="contactBlock">
-
-                {>displayContact contact=contact/}
-                {>displayAddress address=address/}
+                {>displayContact contact=User/}
+                {>displayAddress a=User/}
             </div>
         </div>
         <div class="col-xs-6 image">
-            {#images}
+            {#item[0].images}
                 <img class="thumb" src="{.}s.jpg"/>
-            {/images}
+            {/item[0].images}
         </div>
     </div>
     <div class="row">
