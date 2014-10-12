@@ -145,9 +145,16 @@ $(function () {
         if(!confirm("This will save the current route. Do you want to continue?")){return;}
 
         var date = $("#datepicker").val();
-        var route = $("#routes li").map(function(idx,item){return item.id});
-        var ret = {date:date,route:route};
-        console.log(ret);
+        var route = $("#routes li").map(function(idx,item){
+            $(item).data('marker').setMap(null);
+            return item.id
+        });
+        var ret = {scheduleDate:date,donationID:route};
+        $.post("/routeCreate.php",ret,function(data){
+            console.log('route creation', data)
+            $("#routes").empty();
+        });
+
     });
 });
 
@@ -169,6 +176,7 @@ function setToRequest(e) {
 function setToReject(e) {
     var item = $(this);
     item.data('marker').setMap(null);
+    status.setDonationStatus(item.attr('id'),status.REJECTED);
 
 }
 

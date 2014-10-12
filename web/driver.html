@@ -32,7 +32,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Jasmin 2.0</a>
+            <a class="navbar-brand" href="#">Jasmin 2.0 - Pick-up Schedule</a>
         </div>
         <div class="navbar-collapse collapse">
 
@@ -41,18 +41,12 @@
     </div>
 </div>
 
-<!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="main" role="main">
     <div class="container">
-        <!--div class="row">
-            <div class="col-xs-12">
-                <h3>Time Frame</h3>
-            </div>
-        </div !-->
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-xs-12">
                 <fieldset>
-                    <legend>Items</legend>
+                    <legend>Pick-up Schedule</legend>
                     <div class="itemList">
                         <ul id="requests" class="connectedSortable">
 
@@ -60,40 +54,10 @@
                     </div>
                 </fieldset>
             </div>
-            <div class="col-xs-6">
-                <div class="row">
-
-                    <fieldset>
-                        <legend>Route</legend>
-                        <div id="map-canvas"></div>
-                    </fieldset>
-                </div>
-                <div class="row">
-                    <h3>Route <span id="routeSpecs"></span></h3>
-                    <label for="datepicker">Pickup On:</label>
-                    <input id="datepicker" name="datepicker">
-                    <input type="checkbox" id="optimize" name="optimize">
-                    <label for="optimize">Optimize</label>
-                    <button type="button" class="btn btn-primary btn-xs requestsQueueButton calcRoutes"><span class="glyphicon glyphicon-random"></span> Calculate route</button>
-                    <button type="button" class="btn btn-success btn-xs requestsQueueButton saveRoute"><span class="glyphicon glyphicon-ok"></span> Save route</button>
-                    <div class="itemList">
-                        <ul id="routes" class="connectedSortable">
-
-                        </ul>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
 </div>
-
-<script type="text/javascript"
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3yaolp-gikiCo8pP88PKvp6jnRdBOka4">
-</script>
-<script type="text/javascript">
-
-</script>
 
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -104,7 +68,6 @@
 <script src="js/dust-full.min.js"></script>
 <script src="js/async.js"></script>
 <script src="js/mockData.js"></script>
-<script src="js/status.js"></script>
-<script src="js/main.js"></script>
+<script src="js/driverMain.js"></script>
 </body>
 </html>

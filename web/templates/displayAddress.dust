@@ -1,5 +1,5 @@
 <div class="address">
-        <div>{address.addr1} {?address.addr2}&nbsp;{address.addr2}{/address.addr2}</div>
-        <div>{address.city}, {address.state}, {address.zip}</div>
+        <div><a target="_blank" href="https://www.google.com/maps/place/{address.addr1} {address.addr2}, {address.city}, {address.state}, {address.zip}">{address.addr1} {?address.addr2}&nbsp;{address.addr2}{/address.addr2}</a></div>
+        <div><a target="_blank" href="https://www.google.com/maps/place/{address.addr1} {address.addr2}, {address.city}, {address.state}, {address.zip}">{address.city}, {address.state}, {address.zip}</a></div>
     </dl>
 </div>
