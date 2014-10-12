@@ -21,6 +21,7 @@
 	},
 	"pickUpDates":["1/1/1111"],
         "imageURL":["/10_11/1.jpg"],
-        "donationStatus":1
+        "donationStatus":1,
+        "donationCreationDate":"2014/12/14"
 }]
 }
