@@ -8,6 +8,16 @@
             "count":1,
             "description":"my description"	
     }],
+    "user":{
+    "fName":"Name1",
+    "lName":"Name2",
+    "email":"email@gmail.com",
+    "address":"address 1",
+    "city":"SF",
+    "state":"CA",
+    "zip":"12334",
+    "phone":"222-333-4444"
+    },
     "imageURL":["/10_11/1.jpg"],
     "email":"email@gmail.com",
     "pickUpDates":["1/1/1111"],
@@ -20,13 +30,28 @@ $dbConnection = new PDO('mysql:dbname = hack;host=localhost;charset=utf8',
 "root", "");
 $dbConnection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 $dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-try{
+//try{
     $dbConnection->beginTransaction();
     $sql = 'SELECT DonorID FROM hack.Donor WHERE email=:email';
     $stmt = $dbConnection->prepare($sql);
     $stmt->execute(array(':email'=>$queryJSON['email']));
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $donorID = $result['DonorID'];
+    
+    if(!$result){
+        $url="http://localhost/hackathon-mockup/userCreate.php";
+        $myPost=json_encode($queryJSON['user']);
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array("Content-type: application/json"));
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $myPost);
+        $response = curl_exec($curl);
+        $asdf=json_decode($response,true);
+        $donorID=$asdf['donorID'];
+    }
     
     $sql = 'INSERT INTO hack.Donation(donorID,status) VALUES(:donorID,:status)';
     $stmt = $dbConnection->prepare($sql);
@@ -64,11 +89,11 @@ try{
     $response['status']=1;
     $response['message']="Success!";
     echo json_encode($response);
-}
-catch(PDOException $e){
+//}
+/*catch(PDOException $e){
     $dbConnection->rollBack();
     $response['status']=0;
     $response['message']=$e->getMessage();
     echo json_encode($response);
-}
+}*/
 ?>
