@@ -8,15 +8,31 @@
    {
     "routeID":1,
     "dateScheduled":"12/12/2014",
-    "addresses":[{"address":"address1",
-                  "city":"SF",
-                  "State":"CA",
-                  "zip":12222}]
+    "donations":[{
+	"item":[
+	{
+		"itemTypeID":1,
+                "itemType":"couch",
+		"count":1,
+		"description":"my description"	
+	}],
+	"User":
+	{
+		"fName":"Name1",
+		"lName":"Name2",
+		"email":"email@gmail.com",
+		"address":"address 1",
+		"city":"SF",
+		"state":"CA",
+		"zip":"12334",
+		"phone":"222-333-4444"
+	},
+        "imageURL":["/10_11/1.jpg"]
+    }]
    }]
 }
  */
     $response = array();
-    $route = array();
     
     $dbConnection = new PDO('mysql:dbname = hack;host=localhost;charset=utf8',
     "root", "");
@@ -30,20 +46,46 @@
                 ORDER BY r.routeID,r.scheduleDate ASC';
         $stmt = $dbConnection->prepare($sql);
         $stmt-> execute();
-        $result = $stmt ->fetchAll(PDO::FETCH_ASSOC);
-        $sql = 'SELECT address,city,state,zip 
-                FROM hack.donoraddress da JOIN hack.donation d ON d.donorID = da.donorID
-                JOIN hack.donationRoutes dr ON d.donationID = dr.donationID
-                WHERE dr.routeID = :routeID
-                ORDER BY dr.position ASC';
-        for($i=0;$i<count($result);$i++){
+        $route = $stmt ->fetchAll(PDO::FETCH_ASSOC);
+        $routes = array();
+        for($i=0;$i<count($route);$i++){
+            $sql = 'SELECT fName,lName,email,address,city,state,zip,phone, dr.donationID
+                    FROM hack.donoraddress da JOIN hack.donation d ON d.donorID = da.donorID
+                    JOIN hack.donationRoutes dr ON d.donationID = dr.donationID
+                    JOIN hack.donor dn ON dn.donorID = d.donorID
+                    JOIN hack.donorphone dp ON dn.donorID = dp.donorID
+                    WHERE dr.routeID = :routeID
+                    ORDER BY dr.position ASC';
             $stmt = $dbConnection->prepare($sql);
-            $stmt->execute(array(":routeID"=>$result[$i]['routeID']));
-            $addresses = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $route[$i]= array('routeID'=>$result[$i]['routeID'],'dateScheduled'=>date('m-d-Y',strtotime($result[$i]['scheduleDate'])),'addresses'=>$addresses);
+            $stmt->execute(array(":routeID"=>$route[$i]['routeID']));
+            $donation = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $donations=array();
+            for($j=0;$j<count($donation);$j++)
+            {
+                $user=array('fName'=>$donation[$j]['fName'],
+                    'lName'=>$donation[$j]['lName'],
+                    'email'=>$donation[$j]['email'],
+                    'address'=>$donation[$j]['address'],
+                    'city'=>$donation[$j]['city'],
+                    'state'=>$donation[$j]['state'],
+                    'zip'=>$donation[$j]['zip'],
+                    'phone'=>$donation[$j]['phone']);
+                $sql = 'SELECT imageURL FROM hack.DonationPictures WHERE donationID = :donationID';
+                $stmt = $dbConnection->prepare($sql);
+                $stmt -> execute(array(':donationID'=>$donation[$j]['donationID']));
+                $imageURL = $stmt->fetchAll(PDO::FETCH_COLUMN,0);
+
+                $sql = 'SELECT a.itemTypeID, itemType, itemCount, description FROM hack.DonationItems a JOIN hack.ItemTypes b ON a.itemTypeID = b.itemTypeID WHERE donationID = :donationID';
+                $stmt = $dbConnection->prepare($sql);
+                $stmt -> execute(array(':donationID'=>$donation[$j]['donationID']));
+                $item = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                $donations[$j] = array('item'=>$item,'User'=>$user,'imageURL'=>$imageURL,'donationID'=>$donation[$j]);
+            }
+            $routes[$i]=array('routeID'=>$route[$i]['routeID'],'dateScheduled'=>date('m-d-Y',strtotime($route[$i]['scheduleDate'])),'donations'=>$donations);
         }
         $response['status']=1;
-        $response['route']=$route;
+        $response['route']=$routes;
         echo json_encode($response);
     }
     catch(PDOException $e){

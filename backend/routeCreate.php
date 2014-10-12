@@ -35,6 +35,10 @@
             $stmt = $dbConnection->prepare($sql);
             $stmt->execute(array(':routeID'=>$routeID,':donationID'=>$queryJSON['donationID'][$i],':position'=>$i));
         }
+        $sql = 'UPDATE hack.donation dn JOIN hack.donationRoutes dr ON dn.donationID = dr.donationID SET dn.status = 2 WHERE routeID = :routeID';
+        $stmt = $dbConnection->prepare($sql);
+        $stmt->execute(array(':routeID'=>$routeID));
+        
         $dbConnection->commit();
         
         $response['status']=1;
