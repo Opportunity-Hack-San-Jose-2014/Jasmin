@@ -49,8 +49,12 @@ try{
             ORDER BY dn.dateEntered ASC'*/;
     
     $stmt = $dbConnection->prepare($sql);
-    $stmt->execute(array(':zip'=>$queryJSON['zip'], ':start'=>$newStart,':end'=>$newEnd));
+    $stmt->execute(
+        //array(':zip'=>$queryJSON['zip'], ':start'=>$newStart,':end'=>$newEnd)
+    );
     $result=$stmt->fetchall(PDO::FETCH_ASSOC);
+    error_log("HI. Results");
+    error_log(count($results));
     $donations=array();
     for($i = 0;$i<count($result);$i++){
         $user=array('fName'=>$result[$i]['fName'],
@@ -82,7 +86,7 @@ try{
         $imageURL = $stmt->fetchAll(PDO::FETCH_COLUMN,0);
         
         $donations[$i] = array('item'=>$item,'User'=>$user,'pickUpDates'=>$pickUpDates,'imageURL'=>$imageURL,
-                           'donationStatus'=>$result[$i]['status'],'donationCreationDate'=>$result[$i]['dateEntered'],'donationID'=>$result[$i]);
+                           'donationStatus'=>$result[$i]['status'],'donationCreationDate'=>$result[$i]['dateEntered'],'donationID'=>$result[$i]['donationID']);
     }
     $response['queryStatus'] = 1;
     $response['donations'] = $donations;

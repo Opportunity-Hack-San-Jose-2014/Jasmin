@@ -24,9 +24,13 @@ function ready() {
 
         for (var i in item) {
             var f = item[i];
-
+            var mockItem = getFurniture();
+            f.item[0].itemTitle = mockItem.itemTitle;
+            f.item[0].images = mockItem.images;
+            console.log(f);
             dust.render("item", f, function (origin) {
-                var address = origin.address
+                var address = origin.User;
+                origin.address=address;
                 return function (err, text) {
                     var newItem = $(text);
                     newItem.data('originData', origin);
@@ -75,7 +79,11 @@ function ready() {
 }
 
 function getItems(callback) {
-    callback(addMockItems(10));
+
+    //var data = {"queryStatus":1,"donations":[{"item":[{"itemTypeID":"0","itemType":"toaster","itemCount":"1","description":"bad toastes"}],"User":{"fName":"{","lName":"{","email":"{","address":"{","city":"{","state":"{","zip":"{","phone":"{"},"pickUpDates":["13-10-2014"],"imageURL":[],"donationStatus":"0","donationCreationDate":"2014-10-12 10:54:05","donationID":{"fName":"{","lName":"{","email":"{","address":"{","city":"{","state":"{","zip":"{","phone":"{","status":"0","donationID":"1","dateEntered":"2014-10-12 10:54:05"}},{"item":[{"itemTypeID":"0","itemType":"toaster","itemCount":"1","description":"bad toastes"}],"User":{"fName":"Lenny","lName":"Markus","email":"lmarkus@paypal.com","address":"20 descanso dr #1165","city":"San Jose","state":"CA","zip":"95134","phone":"9543589682"},"pickUpDates":["13-10-2014"],"imageURL":[],"donationStatus":"0","donationCreationDate":"2014-10-12 10:59:32","donationID":{"fName":"Lenny","lName":"Markus","email":"lmarkus@paypal.com","address":"20 descanso dr #1165","city":"San Jose","state":"CA","zip":"95134","phone":"9543589682","status":"0","donationID":"2","dateEntered":"2014-10-12 10:59:32"}},{"item":[{"itemTypeID":"0","itemType":"toaster","itemCount":"1","description":"bad copper"}],"User":{"fName":"Jennifer","lName":"Long","email":"pennyLong@yahoo.com","address":"370 W Caribbean Dr","city":"Sunnyvale","state":"CA","zip":"94089","phone":"9543589682"},"pickUpDates":["14-10-2014"],"imageURL":[],"donationStatus":"0","donationCreationDate":"2014-10-12 11:30:50","donationID":{"fName":"Jennifer","lName":"Long","email":"pennyLong@yahoo.com","address":"370 W Caribbean Dr","city":"Sunnyvale","state":"CA","zip":"94089","phone":"9543589682","status":"0","donationID":"3","dateEntered":"2014-10-12 11:30:50"}},{"item":[{"itemTypeID":"0","itemType":"toaster","itemCount":"1","description":"Our stylish and beloved black couch - three big fluffy cushions, arm rests. 6 1\/2 by 4 by 4 feet."}],"User":{"fName":"Patricia","lName":"Thomas","email":"pat.thomas@comcast.net","address":"712A Cole St","city":"San Francisco","state":"CA","zip":"94117","phone":"408-227-1241"},"pickUpDates":["14-10-2014"],"imageURL":["img\/paypal.png"],"donationStatus":"0","donationCreationDate":"2014-10-12 11:31:10","donationID":{"fName":"Patricia","lName":"Thomas","email":"pat.thomas@comcast.net","address":"712A Cole St","city":"San Francisco","state":"CA","zip":"94117","phone":"408-227-1241","status":"0","donationID":"4","dateEntered":"2014-10-12 11:31:10"}},{"item":[{"itemTypeID":"0","itemType":"toaster","itemCount":"1","description":"Has six drawers in the middle, a spacious surface, and large mirror"}],"User":{"fName":"Abishek","lName":"Bhatt","email":"abbhatt@gmail.com","address":"320 Monticello Street","city":"San Francisco","state":"CA","zip":"94132","phone":"408-267-3298"},"pickUpDates":["16-10-2014"],"imageURL":["img\/paypal.png"],"donationStatus":"0","donationCreationDate":"2014-10-12 11:36:44","donationID":{"fName":"Abishek","lName":"Bhatt","email":"abbhatt@gmail.com","address":"320 Monticello Street","city":"San Francisco","state":"CA","zip":"94132","phone":"408-267-3298","status":"0","donationID":"5","dateEntered":"2014-10-12 11:36:44"}},{"item":[{"itemTypeID":"0","itemType":"toaster","itemCount":"1","description":"Light colored wooden desk, with three large drawers on the side. High quality, heavy desk - not IKEA quality."}],"User":{"fName":"Ciarlotta","lName":"Caggiano","email":"caggi@gmail.com","address":"1087 De Haro St","city":"San Francisco","state":"CA","zip":"94107","phone":"408-207-3221"},"pickUpDates":["22-10-2014"],"imageURL":["img\/paypal.png"],"donationStatus":"0","donationCreationDate":"2014-10-12 11:39:40","donationID":{"fName":"Ciarlotta","lName":"Caggiano","email":"caggi@gmail.com","address":"1087 De Haro St","city":"San Francisco","state":"CA","zip":"94107","phone":"408-207-3221","status":"0","donationID":"6","dateEntered":"2014-10-12 11:39:40"}}]}
+    $.post("/donationQuery.php",{},function(data) {
+        callback(data.donations);
+    });
 }
 
 
@@ -231,7 +239,7 @@ function calcRoute() {
         $(item).data('marker').setMap(null);
 
         return {
-            location: data.addr1 + " " + data.addr2 + " , " + data.city + " , " + data.zip,
+            location: data.address + " "/* + data.addr2 */+ " , " + data.city + " , " + data.zip,
             stopover: true
         }
 
@@ -304,8 +312,8 @@ function computeTotalDistance(result) {
  */
 function geoCode(item, address) {
 
-    var full = address.addr1 + " " + address.addr2 + " " + address.city + " " + address.state + ", " + address.zip;
-
+    var full = address.address + " " +/* address.addr2 + " " +*/ address.city + " " + address.state + ", " + address.zip;
+    console.log('full ',full);
     var geo = new google.maps.Geocoder();
 
     geo.geocode({'address': full }, function (results, status) {
