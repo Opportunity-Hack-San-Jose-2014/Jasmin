@@ -20,6 +20,8 @@ function ready() {
 
 
     getItems(function (item) {
+
+
         for (var i in item) {
             var f = item[i];
 
@@ -88,10 +90,11 @@ function jsonFlickrApi(data) {
 function getPhotos() {
     $.ajax("https://api.flickr.com/services/rest/", {
         jsonpCallback: "jsonFlickrApi",
-        data: {method: "flickr.photos.search", api_key: "14d39dccbd7a5ec415c400e9ec79c738", tags: "forsale", format: "json", api_sig: "d316241d31b4c51a27c08d29bfdf8f9b"}
+        data: {method: "flickr.photos.search", api_key: "9560895d431dc47c33ea213398a64ca3", tags: "furniture", format: "json", api_sig: "33e5bbc3360d412460577e3e4cc03056"}
     }).done(function (data) {
     })
         .error(function (a, b, c) {
+            console.log(a,b,c);
         })
 };
 
