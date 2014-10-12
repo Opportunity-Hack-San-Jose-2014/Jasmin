@@ -130,7 +130,7 @@ function getAllData() {
 }
 function getPhotos() {
     var photoDivs = document.getElementsByClassName('working')
-    console.log( photoDivs )
+    console.log('pd', photoDivs )
     var array = []
 
     for (var i = 0; i < photoDivs.length; i++){

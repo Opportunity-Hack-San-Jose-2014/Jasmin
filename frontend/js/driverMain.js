@@ -98,7 +98,7 @@ function jsonFlickrApi(data) {
     mock.images = data.photos.photo;
     ready();
 }
-function getPhotos() {
+function getFlickerPhotos() {
     $.ajax("https://api.flickr.com/services/rest/", {
         jsonpCallback: "jsonFlickrApi",
         data: {method: "flickr.photos.search", api_key: "14d39dccbd7a5ec415c400e9ec79c738", tags: "forsale", format: "json", api_sig: "d316241d31b4c51a27c08d29bfdf8f9b"}
@@ -116,7 +116,7 @@ function getPhotos() {
 var templates = ['driverItem', 'displayAddress', 'displayContact', 'driverControls'];
 async.each(templates, getTemplate, function () {
     //Once the templates are loaded, go fetch some photos.
-    getPhotos()
+    getFlickerPhotos()
 })
 
 

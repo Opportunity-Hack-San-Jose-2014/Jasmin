@@ -17,7 +17,7 @@ function getTemplate(name, next) {
  */
 
 function ready() {
-
+    console.log('ready');
 
     getItems(function (item) {
 
@@ -96,7 +96,7 @@ function jsonFlickrApi(data) {
     mock.images = data.photos.photo;
     ready();
 }
-function getPhotos() {
+function getFlickerPhotos() {
     $.ajax("https://api.flickr.com/services/rest/", {
         jsonpCallback: "jsonFlickrApi",
         data: {method: "flickr.photos.search", api_key: "9560895d431dc47c33ea213398a64ca3", tags: "furniture", format: "json", api_sig: "33e5bbc3360d412460577e3e4cc03056"}
@@ -115,7 +115,7 @@ function getPhotos() {
 var templates = ['item', 'displayAddress', 'displayContact', 'controls'];
 async.each(templates, getTemplate, function () {
     //Once the templates are loaded, go fetch some photos.
-    getPhotos()
+    getFlickerPhotos()
 })
 
 
