@@ -1,0 +1,11 @@
+<li class="item" id="{itemId}">
+    <h4>{itemTitle}</h4>
+    <p>{itemDesc}</p>
+
+    {>displayContact contact=contact/}
+    {>displayAddress address=address/}
+
+    <!--span class=".displayMore .displayToggle">show more</span>
+    <span class=".displayLess .displayToggle">show less</span!-->
+    <img src="{image}"/>
+</li>

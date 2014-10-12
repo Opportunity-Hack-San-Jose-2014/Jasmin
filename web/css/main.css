@@ -1,0 +1,54 @@
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+h3 {
+    font-size:1em;
+}
+
+h4 {
+    font-size:1em;
+}
+
+.showLess {
+    display: none;
+}
+.itemList ul {
+    min-height: 8em;
+    margin: 0;
+    padding: .25em;
+    border: solid 1px #ccc;
+    border-radius: 3px;
+}
+
+.itemList li {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    list-style: none outside none;
+    margin-bottom: .25em;
+    padding: 0.25em .5em;
+    background: white;
+}
+
+.itemList li:hover {
+    background-color: lightblue;
+    cursor: move;
+}
+
+.itemList li:last-of-type{
+    margin: 0;
+}
+
+.itemList li h4 {
+    margin: 0;
+    text-transform: capitalize;
+}
+
+.itemList li p {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 200;
+}
+
