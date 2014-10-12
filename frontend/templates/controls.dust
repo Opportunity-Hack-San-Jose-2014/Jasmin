@@ -1,6 +1,6 @@
 <div class="controls">
     <hr>
-<button type="button" class="btn btn-primary btn-xs requestsQueueButton toRoute"><span class="glyphicon glyphicon-send"></span> Accept for pickup</button>&nbsp;
-<button type="button" class="btn btn-warning btn-xs routesQueueButton toRequest"><span class="glyphicon glyphicon-remove"></span> Cancel pickup</button>&nbsp;
-<button type="button" class="btn btn-danger btn-xs requestsQueueButton toReject"><span class="glyphicon glyphicon-thumbs-down"></span> Reject</button>&nbsp;
+<button type="button" class="btn btn-primary btn-xs requestsQueueButton toRoute acceptButton" data-toggle="modal" data-target="#accept-modal"><span class="glyphicon glyphicon-send"></span> Accept for pickup</button>&nbsp;
+<button type="button" class="btn btn-warning btn-xs routesQueueButton toRequest" data-toggle="modal" data-target="#accept-modal"><span class="glyphicon glyphicon-remove"></span> Cancel pickup</button>&nbsp;
+<button type="button" class="btn btn-danger btn-xs requestsQueueButton toReject denyButton" data-toggle="modal" data-target="#accept-modal"><span class="glyphicon glyphicon-thumbs-down"></span> Reject</button>&nbsp;
 </div>
