@@ -1,0 +1,21 @@
+<li class="item" id="{itemId}">
+    <div class="row">
+        <div class="col-xs-6">
+            <h4>{itemTitle}</h4>
+            <p>{itemDesc}</p>
+            <hr>
+            {>displayContact contact=contact/}
+            {>displayAddress address=address/}
+        </div>
+        <div class="col-xs-6 image">
+            {#images}
+                <img class="thumb" src="{.}s.jpg"/>
+            {/images}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            {>controls/}
+        </div>
+    </div>
+</li>
