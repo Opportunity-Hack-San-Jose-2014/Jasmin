@@ -1,12 +1,13 @@
 <li class="item" id="{itemId}">
     <div class="row">
         <div class="col-xs-6">
-            <h4>{itemTitle}</h4>
+            <div class="itemDescBlock">
+                <h4>{itemTitle}</h4>
 
-            <p>{itemDesc}</p>
-
+                <p>{itemDesc}</p>
+            </div>
             <div class="contactBlock">
-                <hr>
+
                 {>displayContact contact=contact/}
                 {>displayAddress address=address/}
             </div>

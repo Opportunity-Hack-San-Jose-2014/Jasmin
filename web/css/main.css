@@ -17,7 +17,7 @@ h3 {
     width: 100%;
 }
 
-#requests .routesQueueButton, #routes .requestsQueueButton, #routes .item .image, #routes .contactBlock {
+#requests .routesQueueButton, #routes .requestsQueueButton, #routes .item .image, #routes .contact , #routes .itemDescBlock {
     display: none;
 }
 
