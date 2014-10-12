@@ -17,7 +17,21 @@ function addItem() {
                                         '</div> '+
                                         '<div class="form-group"> '+
                                             '<label for="exampleInputFile">Add Photos</label> '+
-                                            '<input type="file" id="exampleInputFile"> '+
+                                            '<form id="upload" method="post" action="upload.php" enctype="multipart/form-data">'+
+                                               ' <div id="drop">'+
+                                                '    Drop Here'+
+
+                                                 '   <a>Browse</a>'+
+                                                  '  <input type="file" name="upl" multiple />'+
+                                               ' </div>'+
+
+                                                '<div class="row">'+
+                                                 '   <ul>'+
+                                                  '      <!-- The file uploads will be shown here -->'+
+                                                   ' </ul>'+
+                                                '</div>'+
+
+                                            '</form> '+
                                         '</div> '+
                                     '</div><!-- /.box-body --> '+
                                     '<div class="box-footer"> '+
@@ -46,7 +60,7 @@ function getVal(id){
 function getCalJSON() {
     var data = $("#calendar").fullCalendar( 'clientEvents');
     var i = 0;
-    var endJSON;
+    var endJSON = "";
     while (data[i]) {
         //console.log(data[i])
         if (data[i].title === 'Pickup Unavailable') {
@@ -63,7 +77,7 @@ function getCalJSON() {
         //var jsonString = JSON.stringify({'start':data[i].start._d, 'end':data[i].end._d,'timeFrame': data[i].title});
         //console.log(jsonString)
 
-        endJSON = month+"/"+day+"/"+res[3]
+        endJSON += month+"/"+day+"/"+res[3]
 
         i++;
     }
