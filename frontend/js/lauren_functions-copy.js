@@ -167,6 +167,26 @@ function getMonth(text) {
     }
 }
 
+
+function formatModal(name, email, deny) {
+    //alert("hello")
+    document.getElementById('email_to').value = email;
+    if (deny) {
+        document.getElementById('email_title').innerHTML = "Reject Item(s)";
+        document.getElementById('email_message').value = "Dear "+name.trim()+",\n\n"+
+        "Hello! Thanks for considering donating to Goodwill, but we're afraid your item does not qualify for pickup. We encourage you "+
+        "to drop it off at a drop-off center near you.\n\n"+
+        "Sincerely, \n"+
+        "Goodwill of San Francisco, San Mateo, and Marin counties";
+    } else {
+        document.getElementById('email_title').innerHTML = "Confirm Pick-Up";
+        document.getElementById('email_message').value = "Dear "+name.trim()+",\n\n"+
+        "Hello! Thanks for donating to Goodwill! We have received your request and will be picking it up on October 23, 2014.\n\n"+
+        "Sincerely, \n"+
+        "Goodwill of San Francisco, San Mateo, and Marin counties";
+    }
+}
+
 function fileUpload() {
     'use strict';
     // Change this to the location of your server-side upload handler:
