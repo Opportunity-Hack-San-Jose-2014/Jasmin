@@ -30,7 +30,7 @@ $dbConnection = new PDO('mysql:dbname = hack;host=localhost;charset=utf8',
 "root", "");
 $dbConnection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 $dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-//try{
+try{
     $dbConnection->beginTransaction();
     $sql = 'SELECT DonorID FROM hack.Donor WHERE email=:email';
     $stmt = $dbConnection->prepare($sql);
@@ -39,7 +39,7 @@ $dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $donorID = $result['DonorID'];
     
     if(!$result){
-        $url="http://localhost/hackathon-mockup/userCreate.php";
+        $url="userCreate.php";
         $myPost=json_encode($queryJSON['user']);
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_HEADER, false);
@@ -89,11 +89,11 @@ $dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $response['status']=1;
     $response['message']="Success!";
     echo json_encode($response);
-//}
-/*catch(PDOException $e){
+}
+catch(PDOException $e){
     $dbConnection->rollBack();
     $response['status']=0;
     $response['message']=$e->getMessage();
     echo json_encode($response);
-}*/
+}
 ?>
