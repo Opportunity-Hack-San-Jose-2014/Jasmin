@@ -9,7 +9,7 @@
             <div class="contactBlock">
 
                 {>displayContact contact=contact/}
-                {>displayAddress address=address/}
+                {>displayAddress a=address/}
             </div>
         </div>
         <div class="col-xs-6 image">

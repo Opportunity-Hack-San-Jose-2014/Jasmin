@@ -25,6 +25,7 @@ function ready() {
 
             dust.render("driverItem", f, function (origin) {
                 var address = origin.address
+                f.contact.fName= f.contact.name;
                 return function (err, text) {
                     var newItem = $(text);
                     newItem.data('originData', origin);
