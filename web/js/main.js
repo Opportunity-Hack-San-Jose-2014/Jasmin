@@ -145,7 +145,11 @@ $(function () {
         if(!confirm("This will save the current route. Do you want to continue?")){return;}
 
         var date = $("#datepicker").val();
-        var route = $("#routes li").map(function(idx,item){return item.id});
+        var route = $("#routes li").map(function(idx,item){
+
+            status.setDonationStatus(item.id,status.VERIFIED_ASSIGNED);
+            return item.id
+        });
         var ret = {date:date,route:route};
         console.log(ret);
     });
@@ -169,6 +173,7 @@ function setToRequest(e) {
 function setToReject(e) {
     var item = $(this);
     item.data('marker').setMap(null);
+    status.setDonationStatus(item.attr('id'),status.REJECTED);
 
 }
 
