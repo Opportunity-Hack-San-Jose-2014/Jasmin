@@ -1,0 +1,15 @@
+<div class="controls">
+    <hr>
+    <button type="button" class="btn btn-success btn-xs  toPickup"><span class="glyphicon glyphicon-ok"> </span>
+        &nbsp;Picked up
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-warning btn-xs  toRequest"><span class="glyphicon glyphicon-remove"> </span>
+        &nbsp;Canceled
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-danger btn-xs  toReject"><span class="glyphicon glyphicon-thumbs-down"> </span>
+        &nbsp;Rejected
+    </button>
+    &nbsp;
+</div>
