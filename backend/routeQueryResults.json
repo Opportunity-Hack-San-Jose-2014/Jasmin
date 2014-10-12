@@ -1,0 +1,12 @@
+{
+   "status":1,
+    "route":[
+   {
+    "routeID":1,
+    "dateScheduled":"12/12/2014",
+    "addresses":[{"address":"address1",
+                  "city":"SF",
+                  "State":"CA",
+                  "zip":12222}]
+   }]
+}
