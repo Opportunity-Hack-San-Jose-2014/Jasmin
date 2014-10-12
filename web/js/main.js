@@ -146,12 +146,15 @@ $(function () {
 
         var date = $("#datepicker").val();
         var route = $("#routes li").map(function(idx,item){
-
-            status.setDonationStatus(item.id,status.VERIFIED_ASSIGNED);
+            $(item).data('marker').setMap(null);
             return item.id
         });
-        var ret = {date:date,route:route};
-        console.log(ret);
+        var ret = {scheduleDate:date,donationID:route};
+        $.post("/routeCreate.php",ret,function(data){
+            console.log('route creation', data)
+            $("#routes").empty();
+        });
+
     });
 });
 
