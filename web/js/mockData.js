@@ -6988,10 +6988,83 @@ var names =
         "Sonya Askew  ",
         "Clark Katz  ",
         "Vanesa Ericksen  ",
-        "Cleta Latham  ",
+        "Cleta Latham  "
 
 
     ];
+
+var realAddress = [
+    {
+        addr1:"3526 Geary Blvd",
+        addr2:"",
+        city:"San Francisco, CA",
+        state:"CA",
+        zip:"94118"
+    },
+    {
+        addr1:"1515 Waller St",
+        addr2:"",
+        city:"San Francisco, CA",
+        state:"CA",
+        zip:"94117"
+    },
+    {
+        addr1:"1323 Fulton St",
+        addr2:"",
+        city:"San Francisco, CA",
+        state:"CA",
+        zip:"94117"
+    },
+    {
+        addr1:"2875 Van Ness Ave",
+        addr2:"",
+        city:"San Francisco, CA",
+        state:"CA",
+        zip:"94109"
+    },
+    {
+        addr1:"244 Townsend St",
+        addr2:"",
+        city:"San Francisco, CA",
+        state:"CA",
+        zip:"94107"
+    },
+    {
+        addr1:"1420 Castro St",
+        addr2:"",
+        city:"San Francisco, CA",
+        state:"CA",
+        zip:"94114"
+    },
+    {
+        addr1:"50 Post St",
+        addr2:"",
+        city:"San Francisco, CA",
+        state:"CA",
+        zip:"94104"
+    },
+    {
+        addr1:"2030 Ocean Ave",
+        addr2:"",
+        city:"San Francisco, CA",
+        state:"CA",
+        zip:"94127"
+    },
+    {
+        addr1:"101 California St",
+        addr2:"",
+        city:"San Francisco, CA",
+        state:"CA",
+        zip:"94111"
+    },
+    {
+        addr1:"51 Leland Ave",
+        addr2:"",
+        city:"San Francisco, CA",
+        state:"CA",
+        zip:"94134"
+    }
+]
 
 /**
  * Return n random digits.
@@ -7034,7 +7107,7 @@ function getFurniture() {
         itemTitle: title,
         itemDesc: getRand(adjectives) + " " + getRand(colors) + " " + title,
         contact: getContact(),
-        address: getAddress(),
+        address: getRand(realAddress),// getAddress(),
         images: photo_url
     };
 }
@@ -7062,10 +7135,19 @@ function getAddress() {
 function addMockItems(n) {
     for (var i = 0; i < n; i++) {
         var f = getFurniture();
-        console.log(f);
-        dust.render("item", f, function (err, text) {
-            $("#requests").append($(text));
-        });
-    }
-    ;
+        dust.render("item", f, function(address){
+            return function (err, text) {
+                var newItem = $(text);
+                newItem.on('routeQueue',setToRoute);
+                newItem.on('requestQueue',setToRequest);
+                newItem.find('button.toRoute').click(function(item){return function(){item.appendTo("#routes").trigger('routeQueue')}}(newItem));
+                newItem.find('button.toRequest').click(function(item){return function(){item.prependTo("#requests").trigger('requestQueue')}}(newItem));
+
+                $("#requests").append(newItem);
+
+                geoCode(newItem,address)
+            }
+        }(f.address));
+
+    };
 }

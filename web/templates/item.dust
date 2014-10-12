@@ -2,10 +2,14 @@
     <div class="row">
         <div class="col-xs-6">
             <h4>{itemTitle}</h4>
+
             <p>{itemDesc}</p>
-            <hr>
-            {>displayContact contact=contact/}
-            {>displayAddress address=address/}
+
+            <div class="contactBlock">
+                <hr>
+                {>displayContact contact=contact/}
+                {>displayAddress address=address/}
+            </div>
         </div>
         <div class="col-xs-6 image">
             {#images}

@@ -1,20 +1,28 @@
 /* Move down content because we have a fixed navbar that is 50px tall */
 html {
-    color:#333;
+    color: #333;
 }
+
 body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
 
 h3 {
-    font-size:1em;
+    font-size: 1em;
 }
 
+#map-canvas {
+    height: 250px;
+    width: 100%;
+}
 
-.showLess {
+#requests .routesQueueButton, #routes .requestsQueueButton, #routes .item .image, #routes .contactBlock {
     display: none;
 }
+
+
+
 
 .itemList ul {
     min-height: 8em;
@@ -32,15 +40,13 @@ h3 {
     margin: .5em 0;
     padding: 0.25em .5em;
     background: white;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .itemList li:hover {
     background-color: #e0f6ff;
-    box-shadow: 1px 1px 1px rgba(0,0,60,0.5)
-    cursor: move;
+    box-shadow: 1px 1px 1px rgba(0, 0, 60, 0.5) cursor : move;
 }
-
 
 .itemList li h4 {
     margin: 0;
@@ -51,12 +57,12 @@ h3 {
     font-weight: 200;
 }
 
-.itemList hr{
+.itemList hr {
     margin: 10px 0;
 }
 
-.itemList .address{
-    color:#999;
+.itemList .address {
+    color: #999;
     font-size: .75em;
     text-transform: capitalize;
 }
@@ -65,10 +71,10 @@ h3 {
     text-align: right;
 }
 
-.itemList .image img, img.thumb{
+.itemList .image img, img.thumb {
     border-radius: 10px;
     margin: 0 3px 3px 0;
 }
 
-.itemList img.thumb{
+.itemList img.thumb {
 }
