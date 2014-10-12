@@ -85,11 +85,18 @@ function getCalJSON() {
     "donationStatus":1
 }*/
 function getAllData() {
-    var date = getCalJSON()
+    var date = getCalJSON();
     var itemJSON = "";
     var email = getVal('email');
     var descr = getVal('itemDescr1');
-    var photosArray = getPhotos()
+    var photosArray = getPhotos();
+    var lastName = getVal('lastName');
+    var firstName = getVal('firstName');
+    var streetAddress = getVal('streetAddress');
+    var city = getVal('city');
+    var state = getVal('state');
+    var zip = getVal('zip');
+    var phoneNumber = getVal('phoneNumber');
 
     for (var i = 1; i <= itemCounter; i++){
         var id = "itemDescr"+i
@@ -104,12 +111,21 @@ function getAllData() {
 
     console.log(itemJSON)
     // Form JSON string
-    var jsonString = {"item":[{"itemTypeID":0,"count":1,"description":descr}],"email":email,"pickUpDates":[date],"imageURL":photosArray,"donationStatus":0}
-    console.log(jsonString["email"]);
-    console.log(JSON.stringify(jsonString));
-    $.post("http://localhost/hackathon-mockup/donationCreate.php",jsonString,function(data){
+    var jsonString = JSON.stringify({"item":[{"itemTypeID":0,"count":1,"description":descr}],
+        "email":email,"pickUpDates":[date],"imageURL":photosArray,"donationStatus":0,
+        "user":{
+            "fName":firstName,
+            "lName":lastName,
+            "email":email,
+            "address":streetAddress,
+            "city":city,
+            "state":state,
+            "zip":zip,
+            "phone":phoneNumber}});
+    console.log(jsonString)
+    $.post("/donationCreate.php",jsonString,function(data){
  
-    })
+    });
     console.log(jsonString)
 }
 function getPhotos() {
