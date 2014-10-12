@@ -8,6 +8,16 @@
             "count":1,
             "description":"my description"	
     }],
+    "user":{
+    "fName":"Name1",
+    "lName":"Name2",
+    "email":"email@gmail.com",
+    "address":"address 1",
+    "city":"SF",
+    "state":"CA",
+    "zip":"12334",
+    "phone":"222-333-4444"
+    },
     "imageURL":["/10_11/1.jpg"],
     "email":"email@gmail.com",
     "pickUpDates":["1/1/1111"],
@@ -15,6 +25,7 @@
 }*/
 
 $queryJSON = json_decode(file_get_contents("php://input"),true);
+var_dump($queryJSON);
 $response=array();
 $dbConnection = new PDO('mysql:dbname = hack;host=localhost;charset=utf8',
 "root", "");
@@ -27,6 +38,37 @@ try{
     $stmt->execute(array(':email'=>$queryJSON['email']));
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $donorID = $result['DonorID'];
+    
+    if(!$result){
+        $url="userCreate.php";
+        $myPost=$queryJSON['user'];
+
+        //Update Donor Table
+        $sql = 'INSERT INTO hack.Donor(fName,lName,email) VALUES(:fName,:lName,:email)';
+        $stmt = $dbConnection->prepare($sql);
+        $stmt->execute(array(':fName' => $myPost['fName'], ':lName' => $myPost['lName'], 'email'=>$myPost['email']));
+        $donorID = $dbConnection -> lastInsertId('donorID');
+
+        //Update DonorAddress. set previous addresses to status 0(i.e. inactive) and insert a new record
+        $sql = 'UPDATE hack.DonorAddress SET status = 0 WHERE donorID = :donorID';
+        $stmt = $dbConnection->prepare($sql);
+        $stmt->execute(array(':donorID'=>$donorID));
+
+        $sql = 'INSERT INTO hack.DonorAddress(donorID,address,city,state,zip) VALUES(:donorID,:address,:city,:state,:zip)';
+        $stmt = $dbConnection->prepare($sql);
+        $stmt->execute(array(':donorID' => $donorID, ':address' => $myPost['address'],
+            ':city' => $myPost['city'], ':state' => $myPost['state'], ':zip' => $myPost['zip']));
+
+        //Update DonorPhone. Set previous Phones to status 0(i.e. inactive) and insert a new record
+        $sql = 'UPDATE hack.DonorPhone SET status = 0 WHERE donorID = :donorID';
+        $stmt = $dbConnection->prepare($sql);
+        $stmt->execute(array(':donorID'=>$donorID));
+
+        $sql = 'INSERT INTO hack.DonorPhone(donorID,phone) VALUES(:donorID,:phone)';
+        $stmt = $dbConnection->prepare($sql);
+        $stmt->execute(array(':donorID' => $donorID, ':phone' => $myPost['phone']));
+
+    }
     
     $sql = 'INSERT INTO hack.Donation(donorID,status) VALUES(:donorID,:status)';
     $stmt = $dbConnection->prepare($sql);
