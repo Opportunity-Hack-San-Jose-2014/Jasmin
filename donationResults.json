@@ -1,4 +1,6 @@
 {
+"queryStatus":1,
+"donation":[{
 	"item":[
 	{
 		"type":"couch",
@@ -17,5 +19,6 @@
 		"phone":"222-333-4444"
 	},
 	"pickUpDates":["1/1/1111"],
-        "status":1
+        "donationStatus":1
+}]
 }
