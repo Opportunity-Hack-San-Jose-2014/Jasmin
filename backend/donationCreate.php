@@ -41,7 +41,7 @@ try{
     
     if(!$result){
         $url="userCreate.php";
-        $myPost=json_encode($queryJSON['user']);
+        $myPost=$queryJSON['user'];
 
         //Update Donor Table
         $sql = 'INSERT INTO hack.Donor(fName,lName,email) VALUES(:fName,:lName,:email)';
