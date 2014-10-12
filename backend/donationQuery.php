@@ -44,9 +44,9 @@ try{
             JOIN hack.Donor dr ON dn.DonorID = dr.DonorID
             JOIN hack.DonorAddress da ON dr.DonorID = da.DonorID AND da.status = 1
             JOIN hack.DonorPhone dp ON dr.DonorID = dp.DonorID AND dp.status = 1
-            WHERE (dn.status=0 OR dn.status=1) AND da.zip = :zip
+            WHERE (dn.status=0 OR dn.status=1) '/*AND da.zip = :zip
             AND dd.pickUpDate BETWEEN :start AND :end
-            ORDER BY dn.dateEntered ASC';
+            ORDER BY dn.dateEntered ASC'*/;
     
     $stmt = $dbConnection->prepare($sql);
     $stmt->execute(array(':zip'=>$queryJSON['zip'], ':start'=>$newStart,':end'=>$newEnd));
