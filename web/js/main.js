@@ -12,19 +12,79 @@ function getTemplate(name, next) {
 
 };
 
+/**
+ *
+ */
 function ready() {
-    addMockItems(10);
+
+
+    getItems(function (item) {
+        for (var i in item) {
+            var f = item[i];
+
+            dust.render("item", f, function (origin) {
+                var address = origin.address
+                return function (err, text) {
+                    var newItem = $(text);
+                    newItem.data('originData', origin);
+                    newItem.on('routeQueue', setToRoute);
+                    newItem.on('requestQueue', setToRequest);
+                    newItem.on('changeQueue', function () {
+                        console.log('cq');
+                        calcRoute()
+                    });
+                    newItem.on('reject', setToReject);
+
+                    newItem.find('button.toRoute').click(function (item) {
+                        return function () {
+                            item.appendTo("#routes");
+                            item.trigger('routeQueue').trigger('changeQueue');
+
+                        }
+                    }(newItem));
+
+                    newItem.find('button.toRequest').click(function (item) {
+                        return function () {
+                            if (!confirm("Are you sure you want to cancel this pickup?")) {
+                                return;
+                            }
+                            item.prependTo("#requests");
+                            item.trigger('requestQueue').trigger('changeQueue');
+                        }
+                    }(newItem));
+
+
+                    newItem.find('button.toReject').click(function (item) {
+                        return function () {
+
+                            if (!confirm("Are you sure you want to reject this donation?")) {
+                                return;
+                            }
+
+                            item.remove().trigger('reject');
+                        }
+                    }(newItem));
+
+                    $("#requests").append(newItem);
+
+                    geoCode(newItem, address)
+                }
+            }(f));
+        }
+    });
+}
+
+function getItems(callback) {
+    callback(addMockItems(10));
 }
 
 
-var templates = ['item', 'displayAddress', 'displayContact', 'controls'];
-async.each(templates, getTemplate, function () {
-    getPhotos()
-})
-
+/**
+ * Load up some mock item photos from the twitter API
+ * @param data
+ */
 function jsonFlickrApi(data) {
     mock.images = data.photos.photo;
-    console.log('added items', data);
     ready();
 }
 function getPhotos() {
@@ -32,11 +92,21 @@ function getPhotos() {
         jsonpCallback: "jsonFlickrApi",
         data: {method: "flickr.photos.search", api_key: "14d39dccbd7a5ec415c400e9ec79c738", tags: "forsale", format: "json", api_sig: "d316241d31b4c51a27c08d29bfdf8f9b"}
     }).done(function (data) {
-        console.log("dd");
-    }).error(function (a, b, c) {
-        console.log(a, b, c);
     })
+        .error(function (a, b, c) {
+        })
 };
+
+
+/**
+ * Load and compile the templates for various parts of the site
+ * @type {string[]}
+ */
+var templates = ['item', 'displayAddress', 'displayContact', 'controls'];
+async.each(templates, getTemplate, function () {
+    //Once the templates are loaded, go fetch some photos.
+    getPhotos()
+})
 
 
 $(function () {
@@ -53,24 +123,38 @@ $(function () {
      * - Place a permanent marker on the map
      * - Save the new sort order on the database?
      */
-    $("#routes").on( "sortreceive", function( event, ui ) {
-        ui.item.trigger('routeQueue');
+    $("#routes").on("sortreceive", function (event, ui) {
+        ui.item.trigger('routeQueue').trigger('changeQueue');
     });
 
-    $("#requests").on( "sortreceive", function( event, ui ) {
-        ui.item.trigger('requestQueue');
+    $("#requests").on("sortreceive", function (event, ui) {
+        ui.item.trigger('requestQueue').trigger('changeQueue');
+    });
+
+    $("#routes").on("sortupdate", function (event, ui) {
+        calcRoute();
     });
 });
 
 
-function setToRoute(e){
+/**
+ * Actions for the list item controls
+ */
+
+function setToRoute(e) {
     var item = $(this);
     item.data('marker').setMap(map);
 }
 
-function setToRequest(e){
+function setToRequest(e) {
     var item = $(this);
     item.data('marker').setMap(null);
+}
+
+function setToReject(e) {
+    var item = $(this);
+    item.data('marker').setMap(null);
+
 }
 
 
@@ -82,6 +166,10 @@ var map;
 
 var infowindow;
 
+var directionsService = new google.maps.DirectionsService();
+var directionsDisplay = new google.maps.DirectionsRenderer();
+
+
 function initializeMap() {
     var mapOptions = {
         center: { lat: 37.797, lng: -122.444},
@@ -92,12 +180,71 @@ function initializeMap() {
     map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
 
-
+    directionsDisplay.setMap(map);
     infowindow = new google.maps.InfoWindow();
-
 }
 
-//
+
+/**
+ * Actions for the routing controls
+ */
+
+$('.calcRoutes').click(calcRoute);
+
+/**
+ * Calculate the best route between the points in the routeQueue
+ */
+function calcRoute() {
+    var start = "1580 Mission Street, San Francisco, CA 94103";
+    var end = start;//"20 Descanso Dr, San Jose CA 95134";//start;
+
+    var items = $('#routes .item');
+    var wayPoints = items.map(function (idx, item) {
+        var data = $(item).data('originData').address;
+        $(item).data('marker').setMap(null);
+
+        return {
+            location: data.addr1 + " " + data.addr2 + " , " + data.city + " , " + data.zip,
+            stopover: true
+        }
+
+
+    });
+
+    var request = {
+        origin: start,
+        destination: end,
+        waypoints: wayPoints,
+        optimizeWaypoints: $("#optimize").is(":checked"),
+        travelMode: google.maps.TravelMode.DRIVING
+    };
+    directionsService.route(request, function (result, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+
+            directionsDisplay.setDirections(result);
+
+            console.log(result);
+            var totals = computeTotalDistance(result);
+            $("#routeSpecs").text(" " + wayPoints.length + " stops, " + totals.distance + " miles, " + totals.time + " hours");
+        }
+    });
+}
+
+function computeTotalDistance(result) {
+    var totalDistance = 0;
+    var totalTime = 0;
+    var myroute = result.routes[0];
+    for (i = 0; i < myroute.legs.length; i++) {
+        totalDistance += myroute.legs[i].distance.value;
+        totalTime += myroute.legs[i].duration.value;
+    }
+    var METERS_TO_MILES = 0.000621371192;
+    return {
+        distance: (totalDistance * METERS_TO_MILES).toFixed(2),
+        time: (totalTime / 3600).toFixed(2)
+    }
+}
+
 /**
  * Translate a customers address into a map point.
  * This will create two sets of markers:
@@ -153,7 +300,7 @@ function geoCode(item, address) {
             }(full, tmpMarker)
         );
 
-        item.data({marker:prmMarker,infoWindow:infowindow});
+        item.data({marker: prmMarker, infoWindow: infowindow});
 
 
     });
