@@ -13,8 +13,9 @@ function getTemplate(name, next) {
 };
 
 /**
- *
+ * Init function.  And some globals! Yikes!
  */
+
 function ready() {
 
 
@@ -29,10 +30,7 @@ function ready() {
                     newItem.data('originData', origin);
                     newItem.on('routeQueue', setToRoute);
                     newItem.on('requestQueue', setToRequest);
-                    newItem.on('changeQueue', function () {
-                        console.log('cq');
-                        calcRoute()
-                    });
+                    newItem.on('changeQueue', calcRoute);
                     newItem.on('reject', setToReject);
 
                     newItem.find('button.toRoute').click(function (item) {
@@ -109,9 +107,15 @@ async.each(templates, getTemplate, function () {
 })
 
 
+/**
+ * DOM setup
+ */
+
 $(function () {
 
-    //Connect the two lists
+    //Initialize datepicker
+    $("#datepicker").datepicker();
+    //Connect the two queues so that elements can be dragged between eachother, and sorted
     $("#requests, #routes").sortable({
         connectWith: ".connectedSortable"
     })
@@ -133,6 +137,17 @@ $(function () {
 
     $("#routes").on("sortupdate", function (event, ui) {
         calcRoute();
+    });
+
+    //Save routes
+    $(".saveRoute").click(function(){
+        calcRoute();
+        if(!confirm("This will save the current route. Do you want to continue?")){return;}
+
+        var date = $("#datepicker").val();
+        var route = $("#routes li").map(function(idx,item){return item.id});
+        var ret = {date:date,route:route};
+        console.log(ret);
     });
 });
 
@@ -158,7 +173,7 @@ function setToReject(e) {
 }
 
 
-//Gobals!!! Ick!!!
+//Globals!!! Ick!!!
 
 
 var map;
@@ -195,6 +210,7 @@ $('.calcRoutes').click(calcRoute);
  * Calculate the best route between the points in the routeQueue
  */
 function calcRoute() {
+    //Hardcoded the Goodwill HQ as the start and end location for all routes
     var start = "1580 Mission Street, San Francisco, CA 94103";
     var end = start;//"20 Descanso Dr, San Jose CA 95134";//start;
 
@@ -211,25 +227,46 @@ function calcRoute() {
 
     });
 
+    var optimize = $("#optimize").is(":checked");
+
     var request = {
         origin: start,
         destination: end,
         waypoints: wayPoints,
-        optimizeWaypoints: $("#optimize").is(":checked"),
+        optimizeWaypoints: optimize,
         travelMode: google.maps.TravelMode.DRIVING
     };
+
+    //
     directionsService.route(request, function (result, status) {
         if (status == google.maps.DirectionsStatus.OK) {
 
+            //Render the solution on the map
             directionsDisplay.setDirections(result);
 
-            console.log(result);
+            //Tally up the total time / distance for this route
             var totals = computeTotalDistance(result);
             $("#routeSpecs").text(" " + wayPoints.length + " stops, " + totals.distance + " miles, " + totals.time + " hours");
+
+            //Rejjiger the list if set to optimize route
+            if (optimize) {
+                var optimizedWaypoints = result.routes[0].waypoint_order;
+                var oldItems = $("#routes li");
+                var newRoute = [];
+                for (var i in optimizedWaypoints) {
+                    newRoute.push(oldItems[optimizedWaypoints[i]]);
+                }
+                $("#routes").append(newRoute);
+            }
         }
     });
 }
 
+/**
+ * Go through the results and add up the distance/duration of each leg
+ * @param result
+ * @returns {{distance: string, time: string}}
+ */
 function computeTotalDistance(result) {
     var totalDistance = 0;
     var totalTime = 0;
