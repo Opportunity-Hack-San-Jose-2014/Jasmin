@@ -86,7 +86,7 @@ try{
         $imageURL = $stmt->fetchAll(PDO::FETCH_COLUMN,0);
         
         $donations[$i] = array('item'=>$item,'User'=>$user,'pickUpDates'=>$pickUpDates,'imageURL'=>$imageURL,
-                           'donationStatus'=>$result[$i]['status'],'donationCreationDate'=>$result[$i]['dateEntered'],'donationID'=>$result[$i]);
+                           'donationStatus'=>$result[$i]['status'],'donationCreationDate'=>$result[$i]['dateEntered'],'donationID'=>$result[$i]['donationID']);
     }
     $response['queryStatus'] = 1;
     $response['donations'] = $donations;
