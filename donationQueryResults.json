@@ -1,9 +1,10 @@
 {
 "queryStatus":1,
-"donation":[{
+"donations":[{
 	"item":[
 	{
-		"type":"couch",
+		"itemTypeID":1,
+                "itemType":"couch",
 		"count":1,
 		"description":"my description"	
 	}],

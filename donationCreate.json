@@ -1,0 +1,14 @@
+{
+    "item":[
+    {
+            "itemTypeID":0,
+            "count":1,
+            "description":"my description"	
+    }],
+    "User":
+    {
+            "email":"email@gmail.com"
+    },
+    "pickUpDates":["1/1/1111"],
+    "donationStatus":1
+}
