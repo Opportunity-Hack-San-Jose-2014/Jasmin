@@ -1,6 +1,6 @@
 <div class="contact">
     <hr>
-        <div><span class="glyphicon glyphicon-user"></span> {contact.name}</div>
-        <div><span class="glyphicon glyphicon-envelope"></span> {contact.email}</div>
+        <div class="fullName"><span class="glyphicon glyphicon-user"></span> {contact.name}</div>
+        <div class="emailAddress"><span class="glyphicon glyphicon-envelope"></span> {contact.email}</div>
         <div><span class="glyphicon glyphicon-phone-alt"></span> {contact.phone}</div>
 </div>
