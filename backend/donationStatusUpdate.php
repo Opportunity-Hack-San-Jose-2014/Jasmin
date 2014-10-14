@@ -8,16 +8,15 @@
  */
     $response = array();
     $queryJSON = json_decode(file_get_contents("php://input"),true);
+           
+    require_once __DIR__.'/db_config.php';
+    $dbConnection = dbConnect();
     
-    $dbConnection = new PDO('mysql:dbname = hack;host=localhost;charset=utf8',
-    "root", "");
-    $dbConnection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-    $dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     try {
     
         $dbConnection->beginTransaction();
         //Update Donor Table
-        $sql = 'UPDATE hack.Donation SET status = :donationStatus WHERE donationID=:donationID';
+        $sql = 'UPDATE donation SET status = :donationStatus WHERE donationID=:donationID';
         $stmt = $dbConnection->prepare($sql);
         $stmt->execute(array(':donationStatus'=>$queryJSON['donationStatus'], 'donationID'=>$queryJSON['donationID']));
         
