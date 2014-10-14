@@ -14,28 +14,27 @@
  */
     $response = array();
     $queryJSON = json_decode(file_get_contents("php://input"),true);
+       
+    require_once __DIR__.'/db_config.php';
+    $dbConnection = dbConnect();
     
-    $dbConnection = new PDO('mysql:dbname = hack;host=localhost;charset=utf8',
-    "root", "");
-    $dbConnection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-    $dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     try {
     
         $dbConnection->beginTransaction();
         //Update Donor Table
-        $sql = 'INSERT INTO hack.Route(scheduleDate) VALUES(:scheduleDate)';
+        $sql = 'INSERT INTO route(scheduledate) VALUES(:scheduleDate)';
         $stmt = $dbConnection->prepare($sql);
         $newDate = date('Y-m-d',strtotime($queryJSON['scheduleDate']));
         $stmt->execute(array(':scheduleDate' => $newDate));
-        $routeID = $dbConnection -> lastInsertId('routeID');
+        $routeID = $dbConnection -> lastInsertId('routeid');
     
         //Update DonorAddress. set previous addresses to status 0(i.e. inactive) and insert a new record
-        $sql = 'INSERT INTO hack.donationRoutes(routeID,donationID,position) VALUES(:routeID,:donationID,:position)';
+        $sql = 'INSERT INTO donationroute(routeid,donationid,position) VALUES(:routeID,:donationID,:position)';
         for($i = 0;$i<count($queryJSON['donationID']);$i++){
             $stmt = $dbConnection->prepare($sql);
             $stmt->execute(array(':routeID'=>$routeID,':donationID'=>$queryJSON['donationID'][$i],':position'=>$i));
         }
-        $sql = 'UPDATE hack.donation dn JOIN hack.donationRoutes dr ON dn.donationID = dr.donationID SET dn.status = 2 WHERE routeID = :routeID';
+        $sql = 'UPDATE donation dn JOIN donationroute dr ON dn.donationid = dr.donationid SET dn.status = 2 WHERE routeid = :routeID';
         $stmt = $dbConnection->prepare($sql);
         $stmt->execute(array(':routeID'=>$routeID));
         
