@@ -102,7 +102,7 @@ function jsonFlickrApi(data) {
 function getFlickerPhotos() {
     $.ajax("https://api.flickr.com/services/rest/", {
         jsonpCallback: "jsonFlickrApi",
-        data: {method: "flickr.photos.search", api_key: "9560895d431dc47c33ea213398a64ca3", tags: "furniture", format: "json", api_sig: "33e5bbc3360d412460577e3e4cc03056"}
+        data: {method: "flickr.photos.search", api_key: "87996dd13b783ae4b9a050bf749099f6", tags: "furniture", format: "json"}
     }).done(function (data) {
     })
         .error(function (a, b, c) {
