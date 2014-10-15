@@ -1,0 +1,44 @@
+Approximate Salesforce Schema for adding new contacts, item and photographs
+
+New Account
+		Account Name
+	Address Information
+		Billing Street:
+		Billing State:
+		Shipping Street:
+		Shipping State:
+
+New Contact
+	First Name:
+	Last Name:
+	Account Name : FK-Account Name
+	Relationships to Goodwill {Material Donor}
+	Mailing Street:
+	Mailing City:
+	Mailing State/Province: 
+
+	Phone:
+	Mobile:
+	Email:
+
+New Donation
+	[Material Donation]
+		Donation Name
+		Account Name: FK-Account Name
+		Stage
+		Close Date
+		Type [Home Pick-up]
+New Note
+	Related To: FK - Material Donation
+	Title: Brief Description
+	Body: Description
+Attach File
+	Choose File
+	Attach File
+	Done
+	e.g. https://c.na20.content.force.com/servlet/servlet.FileDownload?file=00P1400000aCrxj
+
+
+Attachment Object: (bin64 of image)
+https://www.salesforce.com/us/developer/docs/api/Content/sforce_api_objects_attachment.htm
+

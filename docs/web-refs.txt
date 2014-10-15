@@ -11,3 +11,7 @@ Example of their existing CRM (started but apparently flawed)
 http://sfgoodwill.org/account/track-what-you-donate/
 Create Account Page
 http://sfgoodwill.org/account/register/
+
+
+Example Salvation Army advertisement's pickup 
+https://sanjose.satruck.org/schedule-pickup-ad/94303

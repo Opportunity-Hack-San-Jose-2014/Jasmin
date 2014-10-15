@@ -1,0 +1,30 @@
+Project Jasmin
+
+
+2 Min Pitch:
+
+100% nonprofit and local, the SFGoodwill connects the engine of capitalism with the human drive for self-improvement to deliver social good on a large scale.
+
+Critical to the GoodWill mission of on-the-job training rehabilitation with work experience, and placement services is the steady stream of donations in the form of large furniture, tons of clothes, electronics and accessories. Core to this flow is an equally steady stream of hundreds of telephone calls, messages and paperwork across the desk of one Jasimine McCowan organizer and router extraordinaire.
+
+Enter Jasmin 2.0, an exciting addition to the existing Salesforce CRM system now allows Mr and Mrs, Mr and Mr, and Ms. Mrs. San Franciscan Bay Area resident, to recycle, reuse and save landfill for what somebody else actually would pay good dollars for, while allowing Goodwill to go on their mission by reducing countless telephone calls, faxes, and inefficient data entry.
+
+Want to talk about efficiency, consider how motivated the donors that want to get rid of that oversized 1985 coffee and end tables.  Look at the glossy integrated photographs.  Note that they do not need to be manually removed from emails and uploaded into Salesforce CRM with a dozen or more clicks and spiny beach balls.
+
+Think about the saved fuel from optimized routing, saving time from avoiding traffic and data entry.  Imagine the next Jasmin 3.0 with hashtag booking, new features, better information and integration down to the hauler and to each Goodwill store.  The SF Goodwill is on a mission let them go forth. 
+
+
+
+5 Min Pitch:
+
+
+100% nonprofit and local, the SFGoodwill connects the engine of capitalism with the human drive for self-improvement to deliver social good on a large scale. This has been the business model and promise of all Goodwills since the founding of the first chapter in 1902.  Critical to the GoodWill mission of on-the-job training rehabilitation with work experience, and placement services is the steady stream of donations in the form of large furniture, tons of clothes, electronics and accessories. Core to this flow is an equally steady stream of telephone calls, messages and paperwork across the desk of one Jasimine McCowan organizer and router extraordinaire.  
+
+On Monday morning Jasmine will work a backlog of up to 200 phone messages, a plea for as many emailed photographs, and thousands of pieces of data to enter into the Salesforce CRM system in order that she may organize all the the drivers and trucks that will service the all of our hand me downs in San Francisco and the mid peninsula throughout the week.  
+
+The Salesforce CRM system is a workhorse, and while it does a good many things well its not the easiest sexiest animal on the block anymore, and it is not accessible for the most eager of data entry specialists - The donors who want that old couch and end tables moved already (we mean repurposed)!  Fortunately, due to the diligent effort of the staff of Goodwill and with help from Opportunity Hack 2014 Jasimine has a new Jasmine 2.0 to help her with her organization.  The Jasmine 2.0 software is designed to be elegant and accessible to those most enthused of data entry volunteers.  It is also designed to integrate with the existing software (thus keeping many Salesforce engineers employed and leaving valuable room in GoodWill programs for other needy clients).  Jasmin 2.0 is innovative with the inclusion of a plethora of open source software, and mashup features and services.  For instance Google maps now optimizes routing and Flicker supplies field available and email free transfer of operations critical photographs, scheduling and communications.
+
+The need is big.  Goodwill is big.  The trucks, the crews, and that 1985 oversized coffee table is big!
+
+The future is bright for Jasmine 2.0, and it could easily it  graduating along with the masses of on-the-job-trained Goodwill clients to Jasmyn 3.0, with possibly Instagram or Twitter hashtag booking, better reports, scheduling around traffic, iPhone, iPad and Android optimization etc.  The future is as bright are the prospects the thousands of repurposed goods that it will be saved from the refuse piles, as the delivery crews become even more productive.  GoodWill's time freed up from this necessary but limiting data entry may now be used to innovate with new and improved programs for social good on the large scale.
+
